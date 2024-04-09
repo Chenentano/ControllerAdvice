@@ -1,5 +1,7 @@
-package de.neuefische.springexceptionhandlingtask;
+package de.neuefische.springexceptionhandlingtask.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -15,6 +17,12 @@ public class CarController {
         }
         return brand;
     }
+
+    @ExceptionHandler({IllegalArgumentException.class, NoSuchElementException.class})
+    public ResponseEntity<String> handleExceptions(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
 
     @GetMapping
     String getAllCars() {
